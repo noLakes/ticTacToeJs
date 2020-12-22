@@ -49,6 +49,12 @@ const Game = (function () {
   }
 })();
 
+const newPlayer = (name, mark, human) => {
+  
+  return {name, mark, human}
+}
+
 //test code
 GameBoard.newBoard();
 DOM.updateBoard();
+const shan = newPlayer('Shan', 'X', true);
