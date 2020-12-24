@@ -49,12 +49,16 @@ const Game = (function () {
   }
 })();
 
-const newPlayer = (name, mark, human) => {
-  
-  return {name, mark, human}
+// player factory function
+const newPlayer = (name='Player', mark='X', human=true) => {
+  return {
+    name,
+    mark,
+    human,
+  }
 }
 
 //test code
 GameBoard.newBoard();
 DOM.updateBoard();
-const shan = newPlayer('Shan', 'X', true);
+const testPlayer = newPlayer('Test');
