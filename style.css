@@ -71,7 +71,9 @@ select {
 
 /* CSS reset end */
 
-
+body {
+  background-color: rgb(158, 201, 247);
+}
 
 .main-container {
   display: flex;
@@ -80,6 +82,18 @@ select {
   min-height: 100vh;
   justify-content: center;
   align-items: center;
+}
+
+.settings-container {
+  display: flex;
+  width: 100%;
+  max-width: 900px;
+  justify-content: space-around;
+  margin-bottom: 1rem;
+  border-top: 2px solid mediumseagreen;
+  border-bottom: 2px solid mediumseagreen;
+  padding: 1rem 0;
+  background-color: #8fd4d7e3;
 }
 
 .board {
@@ -91,7 +105,7 @@ select {
 }
 
 .cell {
-  width: calc(33% - 4px);
+  width: 33.33%;
   height: auto;
   background-color: cadetblue;
   border: 2px solid mediumseagreen;
