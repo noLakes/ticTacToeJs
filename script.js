@@ -14,7 +14,6 @@ const DOM = (function() {
 })();
 
 const GameBoard = (function() {
-  // private
 
   // array containing actual board
   const board = []
@@ -44,21 +43,25 @@ const GameBoard = (function() {
 
 // turn logic, win conditions and players
 const Game = (function () {
-  return {
 
+  // player factory function
+  const newPlayer = (name = 'Player', mark = 'X', human = true) => {
+    return {
+      name,
+      mark,
+      human,
+    }
+  }
+  
+  return {
+    players : {
+      1 : newPlayer('Player1', 'X', true),
+      2 : newPlayer('Player2', 'O', true),
+    },
+    
   }
 })();
-
-// player factory function
-const newPlayer = (name='Player', mark='X', human=true) => {
-  return {
-    name,
-    mark,
-    human,
-  }
-}
 
 //test code
 GameBoard.newBoard();
 DOM.updateBoard();
-const testPlayer = newPlayer('Test');
