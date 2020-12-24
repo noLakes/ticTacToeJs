@@ -3,6 +3,19 @@ const DOM = (function() {
   return {
     boardContainer : document.querySelector('.board'),
     cells : document.querySelectorAll('.cell'),
+    newGameButton : document.querySelector('.new-game'),
+    
+    player1 : {
+      name : document.querySelector('.player1 .name span'),
+      mark : document.querySelector('.player1 .mark span'),
+      humanity : document.querySelector('.player1 .humanity'),
+    },
+
+    player2 : {
+      name : document.querySelector('.player2 .name span'),
+      mark : document.querySelector('.player2 .mark span'),
+      humanity : document.querySelector('.player2 .humanity'),
+    },
 
     updateBoard : function() {
       GameBoard.getBoard().forEach((cell, idx) => {
