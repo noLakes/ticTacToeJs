@@ -6,15 +6,15 @@ const DOM = (function() {
     newGameButton : document.querySelector('.new-game'),
     
     player1 : {
-      name : document.querySelector('.player1 .name span'),
-      mark : document.querySelector('.player1 .mark span'),
-      humanity : document.querySelector('.player1 .humanity'),
+      name : document.querySelector('.player1 .name'),
+      human : document.querySelector('.player1 .human'),
+      bot : document.querySelector('.player1 .bot'),
     },
 
     player2 : {
-      name : document.querySelector('.player2 .name span'),
-      mark : document.querySelector('.player2 .mark span'),
-      humanity : document.querySelector('.player2 .humanity'),
+      name : document.querySelector('.player2 .name'),
+      human : document.querySelector('.player2 .human'),
+      bot : document.querySelector('.player2 .bot'),
     },
 
     updateBoard() {
