@@ -17,7 +17,7 @@ const DOM = (function() {
       humanity : document.querySelector('.player2 .humanity'),
     },
 
-    updateBoard : function() {
+    updateBoard() {
       GameBoard.getBoard().forEach((cell, idx) => {
         this.cells[idx].innerHTML = cell.mark;
       })
@@ -40,10 +40,10 @@ const GameBoard = (function() {
   return {
     
     // returns board array
-    getBoard : () => { return board },
+    getBoard() { return board },
     
     // clears board and fills with 9 blank cells
-    newBoard : () => {
+    newBoard() {
       board.length = 0;
       for (i = 0; i < 9; i++) {
         board.push(cell(`${i}`));
