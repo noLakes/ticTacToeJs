@@ -1,6 +1,6 @@
 
 const DOM = (function() {
-  
+
   return {
     boardContainer : document.querySelector('.board'),
     cells : document.querySelectorAll('.cell'),
@@ -23,6 +23,10 @@ const DOM = (function() {
       GameBoard.getBoard().forEach((cell, idx) => {
         this.cells[idx].innerHTML = cell.mark;
       })
+    },
+
+    emptyCells() {
+      return [...this.cells].filter(cell => cell.innerHTML === '');
     },
 
   }
@@ -52,6 +56,10 @@ const GameBoard = (function() {
       }
     },
 
+    fillCell(index, mark) {
+      board[index].mark = mark;
+    }
+
 
   }
 })();
@@ -62,21 +70,33 @@ const Game = (function () {
   // game logic variables
   let state = false;
   let turn = 1;
-
+  
   // player factory function
   const newPlayer = (name = 'Player', mark = 'X', human = true) => {
-    return {
-      name,
-      mark,
-      human,
-    }
+    return {name, mark, human}
   }
+
+  const players = {
+    1 : newPlayer('Player1', 'X', true),
+    2 : newPlayer('Player2', 'O', true),
+  }
+
+  const toggleTurn = () => {
+    turn = (turn === 1) ? 2 : 1;
+  }
+
+  const enterMove = (e) => {
+    if(e.target.innerHTML !== '') return;
+    GameBoard.fillCell(e.target.dataset.idx, players[turn].mark);
+    DOM.updateBoard();
+    toggleTurn();
+  }
+
+  DOM.cells.forEach(cell => {
+    cell.addEventListener('click', enterMove);
+  });
   
   return {
-    players : {
-      1 : newPlayer('Player1', 'X', true),
-      2 : newPlayer('Player2', 'O', true),
-    },
     
   }
 })();
