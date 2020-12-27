@@ -1,8 +1,10 @@
 
 const DOM = (function() {
+  
   return {
     boardContainer : document.querySelector('.board'),
     cells : document.querySelectorAll('.cell'),
+    playButton : document.querySelector('.play'),
     newGameButton : document.querySelector('.new-game'),
     
     player1 : {
@@ -46,7 +48,7 @@ const GameBoard = (function() {
     newBoard() {
       board.length = 0;
       for (i = 0; i < 9; i++) {
-        board.push(cell(`${i}`));
+        board.push(cell());
       }
     },
 
@@ -56,6 +58,10 @@ const GameBoard = (function() {
 
 // turn logic, win conditions and players
 const Game = (function () {
+
+  // game logic variables
+  let state = false;
+  let turn = 1;
 
   // player factory function
   const newPlayer = (name = 'Player', mark = 'X', human = true) => {
