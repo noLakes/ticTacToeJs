@@ -7,17 +7,9 @@ const DOM = (function() {
     playButton : document.querySelector('.play'),
     newGameButton : document.querySelector('.new-game'),
     
-    player1 : {
-      name : document.querySelector('.player1 .name'),
-      human : document.querySelector('.player1 .human'),
-      bot : document.querySelector('.player1 .bot'),
-    },
-
-    player2 : {
-      name : document.querySelector('.player2 .name'),
-      human : document.querySelector('.player2 .human'),
-      bot : document.querySelector('.player2 .bot'),
-    },
+    p1Name : document.querySelector('.player1 .name'),
+    p2Name : document.querySelector('.player2 .name'),
+    humanityButtons : document.querySelectorAll('.humanity button'),
 
     updateBoard() {
       GameBoard.getBoard().forEach((cell, idx) => {
@@ -27,6 +19,16 @@ const DOM = (function() {
 
     emptyCells() {
       return [...this.cells].filter(cell => cell.innerHTML === '');
+    },
+
+    switchActive(element) {
+      element.classList.add('active');
+      if(element.nextElementSibling) {
+        element.nextElementSibling.classList.remove('active');
+      }
+      if(element.previousElementSibling) {
+        element.previousElementSibling.classList.remove('active');
+      }
     },
 
   }
@@ -103,14 +105,23 @@ const Game = (function () {
     nextTurn();
   }
 
+  const toggleHuman = (e) => {
+    if(e.target.classList.contains('active')) return;
+    playerNum = e.target.dataset.pnum;
+    players[playerNum].human = !players[playerNum].human;
+    DOM.switchActive(e.target);
+  }
+
+  // adds event listeners to each DOM cell element
   DOM.cells.forEach(cell => {
     cell.addEventListener('click', enterMove);
   });
+
+  DOM.humanityButtons.forEach(button => {
+    button.addEventListener('click', toggleHuman);
+  });
   
   return {
-    toggleHuman(playerNum) {
-      players[playerNum].human = !players[playerNum].human;
-    },
 
     getPlayer(playerNum) {
       return players[playerNum];
