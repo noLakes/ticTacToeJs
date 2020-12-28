@@ -58,8 +58,7 @@ const GameBoard = (function() {
 
     fillCell(index, mark) {
       board[index].mark = mark;
-    }
-
+    },
 
   }
 })();
@@ -81,15 +80,27 @@ const Game = (function () {
     2 : newPlayer('Player2', 'O', true),
   }
 
-  const toggleTurn = () => {
+  const nextTurn = () => {
+    // check win here
     turn = (turn === 1) ? 2 : 1;
+    // check if current player is bot - make bot move if true
+    if(!players[turn].human) getBotMove();
   }
 
   const enterMove = (e) => {
     if(e.target.innerHTML !== '') return;
     GameBoard.fillCell(e.target.dataset.idx, players[turn].mark);
     DOM.updateBoard();
-    toggleTurn();
+    nextTurn();
+  }
+
+  const getBotMove = () => {
+    // code for bot move (random for now)
+    validCells = DOM.emptyCells();
+    move = validCells[Math.floor(Math.random() * validCells.length)];
+    GameBoard.fillCell(move.dataset.idx, players[turn].mark);
+    DOM.updateBoard();
+    nextTurn();
   }
 
   DOM.cells.forEach(cell => {
@@ -97,7 +108,14 @@ const Game = (function () {
   });
   
   return {
-    
+    toggleHuman(playerNum) {
+      players[playerNum].human = !players[playerNum].human;
+    },
+
+    getPlayer(playerNum) {
+      return players[playerNum];
+    }
+
   }
 })();
 
