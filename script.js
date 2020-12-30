@@ -93,6 +93,9 @@ const Game = (function () {
         result = marks[0];
       }
     });
+    
+    if(!result && DOM.emptyCells().length === 0) { result = 'draw'};
+  
     return result;
   }
   
@@ -106,8 +109,16 @@ const Game = (function () {
     2 : newPlayer('Player2', 'O', true),
   }
 
+  const sleep = (ms) => {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
   const nextTurn = () => {
-    console.log(checkWin());
+    const result = checkWin();
+    if(result) { 
+      endGame(result);
+      return;
+    };
     turn = (turn === 1) ? 2 : 1;
     // check if current player is bot - make bot move if true
     if(!players[turn].human) getBotMove();
@@ -120,8 +131,8 @@ const Game = (function () {
     nextTurn();
   }
 
-  const getBotMove = () => {
-    // code for bot move (random for now)
+  const getBotMove = async () => {
+    await sleep(1000);
     validCells = DOM.emptyCells();
     move = validCells[Math.floor(Math.random() * validCells.length)];
     GameBoard.fillCell(move.dataset.idx, players[turn].mark);
@@ -144,6 +155,28 @@ const Game = (function () {
   DOM.humanityButtons.forEach(button => {
     button.addEventListener('click', toggleHuman);
   });
+
+  const endGame = (result) => {
+    switch(result) {
+      case players[1].mark:
+        alert(`Game over! ${players[1].name} (${players[1].mark}) wins!`);
+        break;
+      case players[2].mark:
+        alert(`Game over! ${players[2].name} (${players[2].mark}) wins!`);
+        break;
+      case 'draw':
+        alert("Game over! It's a draw");
+        break;
+    }
+    resetGame();
+  }
+
+  const resetGame = () => {
+    GameBoard.newBoard();
+    DOM.updateBoard();
+    turn = 1;
+    if(players[turn].human === false) { getBotMove() };
+  }
   
   return {
 
