@@ -49,6 +49,8 @@ const GameBoard = (function() {
     
     // returns board array
     getBoard() { return board },
+
+    getCell(idx) { return board[idx] },
     
     // clears board and fills with 9 blank cells
     newBoard() {
@@ -82,6 +84,17 @@ const Game = (function () {
     [0, 4, 8],
     [2, 4, 6],
   ]
+
+  const checkWin = () => {
+    let result = false;
+    wins.forEach(condition => {
+      const marks = condition.map(idx => GameBoard.getCell(idx).mark);
+      if(marks.every(m => m === 'X') || marks.every(m => m === 'O')) {
+        result = marks[0];
+      }
+    });
+    return result;
+  }
   
   // player factory function
   const newPlayer = (name = 'Player', mark = 'X', human = true) => {
@@ -94,7 +107,7 @@ const Game = (function () {
   }
 
   const nextTurn = () => {
-    // check win here
+    console.log(checkWin());
     turn = (turn === 1) ? 2 : 1;
     // check if current player is bot - make bot move if true
     if(!players[turn].human) getBotMove();
