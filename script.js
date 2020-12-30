@@ -4,11 +4,13 @@ const DOM = (function() {
   return {
     boardContainer : document.querySelector('.board'),
     cells : document.querySelectorAll('.cell'),
-    playButton : document.querySelector('.play'),
-    newGameButton : document.querySelector('.new-game'),
+    resetButton : document.querySelector('.reset'),
     
-    p1Name : document.querySelector('.player1 .name'),
-    p2Name : document.querySelector('.player2 .name'),
+    playerNames : {
+      1 : document.querySelector('.player1 .name'),
+      2 : document.querySelector('.player2 .name'),
+    },
+
     humanityButtons : document.querySelectorAll('.humanity button'),
 
     updateBoard() {
@@ -21,7 +23,7 @@ const DOM = (function() {
       return [...this.cells].filter(cell => cell.innerHTML === '');
     },
 
-    switchActive(element) {
+    switchActiveHuman(element) {
       element.classList.add('active');
       if(element.nextElementSibling) {
         element.nextElementSibling.classList.remove('active');
@@ -46,7 +48,6 @@ const GameBoard = (function() {
   }
   
   return {
-    
     // returns board array
     getBoard() { return board },
 
@@ -63,15 +64,12 @@ const GameBoard = (function() {
     fillCell(index, mark) {
       board[index].mark = mark;
     },
-
   }
 })();
 
 // turn logic, win conditions and players
 const Game = (function () {
 
-  // game logic variables
-  let state = false;
   let turn = 1;
 
   const wins = [
@@ -84,6 +82,16 @@ const Game = (function () {
     [0, 4, 8],
     [2, 4, 6],
   ]
+  
+  // player factory function
+  const newPlayer = (name = 'Player', mark = 'X', human = true) => {
+    return {name, mark, human}
+  }
+
+  const players = {
+    1 : newPlayer('Player1', 'X', true),
+    2 : newPlayer('Player2', 'O', true),
+  }
 
   const checkWin = () => {
     let result = false;
@@ -98,20 +106,6 @@ const Game = (function () {
   
     return result;
   }
-  
-  // player factory function
-  const newPlayer = (name = 'Player', mark = 'X', human = true) => {
-    return {name, mark, human}
-  }
-
-  const players = {
-    1 : newPlayer('Player1', 'X', true),
-    2 : newPlayer('Player2', 'O', true),
-  }
-
-  const sleep = (ms) => {
-    return new Promise(resolve => setTimeout(resolve, ms));
-  }
 
   const nextTurn = () => {
     const result = checkWin();
@@ -124,11 +118,8 @@ const Game = (function () {
     if(!players[turn].human) getBotMove();
   }
 
-  const enterMove = (e) => {
-    if(e.target.innerHTML !== '') return;
-    GameBoard.fillCell(e.target.dataset.idx, players[turn].mark);
-    DOM.updateBoard();
-    nextTurn();
+  const sleep = (ms) => {
+    return new Promise(resolve => setTimeout(resolve, ms));
   }
 
   const getBotMove = async () => {
@@ -144,7 +135,22 @@ const Game = (function () {
     if(e.target.classList.contains('active')) return;
     playerNum = e.target.dataset.pnum;
     players[playerNum].human = !players[playerNum].human;
-    DOM.switchActive(e.target);
+    DOM.switchActiveHuman(e.target);
+    if(Number(playerNum) === turn) { getBotMove() };
+  }
+
+  const enterMove = (e) => {
+    if(e.target.innerHTML !== '') return;
+    GameBoard.fillCell(e.target.dataset.idx, players[turn].mark);
+    DOM.updateBoard();
+    nextTurn();
+  }
+
+  const resetGame = () => {
+    GameBoard.newBoard();
+    DOM.updateBoard();
+    turn = 1;
+    if(players[turn].human === false) { getBotMove() };
   }
 
   // adds event listeners to each DOM cell element
@@ -155,6 +161,8 @@ const Game = (function () {
   DOM.humanityButtons.forEach(button => {
     button.addEventListener('click', toggleHuman);
   });
+
+  DOM.resetButton.addEventListener('click', resetGame);
 
   const endGame = (result) => {
     switch(result) {
@@ -170,20 +178,11 @@ const Game = (function () {
     }
     resetGame();
   }
-
-  const resetGame = () => {
-    GameBoard.newBoard();
-    DOM.updateBoard();
-    turn = 1;
-    if(players[turn].human === false) { getBotMove() };
-  }
   
   return {
-
     getPlayer(playerNum) {
       return players[playerNum];
     }
-
   }
 })();
 
