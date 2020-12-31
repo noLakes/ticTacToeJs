@@ -178,10 +178,10 @@ const Game = (function () {
   const endGame = (result) => {
     switch(result) {
       case players[1].mark:
-        alert(`Game over! ${players[1].name} (${players[1].mark}) wins!`);
+        alert(`Game over! ${players[1].mark} wins!`);
         break;
       case players[2].mark:
-        alert(`Game over! ${players[2].name} (${players[2].mark}) wins!`);
+        alert(`Game over! ${players[2].mark} wins!`);
         break;
       case 'draw':
         alert("Game over! It's a draw");
