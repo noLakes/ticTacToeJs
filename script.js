@@ -193,10 +193,13 @@ const Game = (function () {
   return {
     getPlayer(playerNum) {
       return players[playerNum];
+    },
+
+    play() {
+      GameBoard.newBoard();
+      DOM.updateBoard(); 
     }
   }
 })();
 
-//test code
-GameBoard.newBoard();
-DOM.updateBoard();
+Game.play();
