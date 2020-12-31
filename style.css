@@ -37,6 +37,8 @@ body {
   scroll-behavior: smooth;
   text-rendering: optimizeSpeed;
   line-height: 1.5;
+  font-family: Arial, Helvetica, sans-serif;
+  color: #35496a;
 }
 
 /* Remove list styles on ul, ol elements with a class attribute */
@@ -71,8 +73,15 @@ select {
 
 /* CSS reset end */
 
+:root {
+  --med: #82a4e3;
+  --dark: #52688f;
+  --active: #f7cb2d;
+  --grey: #a2c4e0;
+}
+
 body {
-  background-color: rgb(158, 201, 247);
+  background-color: var(--dark);
 }
 
 .main-container {
@@ -87,18 +96,20 @@ body {
 .settings-container {
   display: flex;
   width: 100%;
-  max-width: 900px;
+  max-width: 425px;
   justify-content: space-around;
   margin-bottom: 1rem;
-  border-top: 2px solid mediumseagreen;
-  border-bottom: 2px solid mediumseagreen;
+  border-top: 2px solid var(--med);
+  border-bottom: 2px solid var(--med);
   padding: 1rem 0;
-  background-color: #8fd4d7e3;
+  background-color: var(--grey);
 }
 
 .player-info {
   display: flex;
+  width: 33.33%;
   height: 100%;
+  max-height: calc(425px / 3.33);
 }
 
 .humanity {
@@ -107,7 +118,9 @@ body {
 }
 
 .name {
-  font-size: 64px;
+  font-size: 56px;
+  line-height: 100%;
+  margin-right: 10px;
 }
 
 .board {
@@ -124,22 +137,36 @@ body {
   height: 33.33%;
   align-items: center;
   justify-content: center;
-  background-color: cadetblue;
-  border: 2px solid mediumseagreen;
+  background-color: var(--grey);
+  border: 2px solid var(--med);
   font-size: 5rem;
+  color: #35496a;
 }
 
 .cell:hover {
   cursor: pointer;
-  background-color: rgb(109, 178, 181);
+  background-color: #9ed0f9;
 }
 
 .active {
-  background-color: coral;
+  background-color: var(--active);
 }
 
 li.name.active {
-  color: rgb(211, 19, 19);
-  font-weight: 900;
+  color: var(--active);
   background-color: rgba(0, 128, 0, 0);
+}
+
+button {
+  background-color: rgb(164, 182, 199);
+  border-radius: 5px;
+}
+
+button:hover {
+  cursor: pointer;
+  background-color: rgb(188, 206, 223);
+}
+
+button.active:hover {
+  background-color: var(--active);
 }
