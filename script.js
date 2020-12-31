@@ -23,6 +23,15 @@ const DOM = (function() {
       return [...this.cells].filter(cell => cell.innerHTML === '');
     },
 
+    switchActiveName(element) {
+      element.classList.add('active');
+      if (element === this.playerNames[1]) {
+        this.playerNames[2].classList.remove('active');
+      } else {
+        this.playerNames[1].classList.remove('active');
+      }
+    },
+
     switchActiveHuman(element) {
       element.classList.add('active');
       if(element.nextElementSibling) {
@@ -114,6 +123,7 @@ const Game = (function () {
       return;
     };
     turn = (turn === 1) ? 2 : 1;
+    DOM.switchActiveName(DOM.playerNames[turn]);
     // check if current player is bot - make bot move if true
     if(!players[turn].human) getBotMove();
   }
@@ -150,6 +160,7 @@ const Game = (function () {
     GameBoard.newBoard();
     DOM.updateBoard();
     turn = 1;
+    DOM.switchActiveName(DOM.playerNames[turn]);
     if(players[turn].human === false) { getBotMove() };
   }
 

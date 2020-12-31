@@ -116,3 +116,9 @@ body {
 .active {
   background-color: coral;
 }
+
+li.name.active {
+  color: rgb(211, 19, 19);
+  font-weight: 900;
+  background-color: rgba(0, 128, 0, 0);
+}
